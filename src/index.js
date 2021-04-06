@@ -6,6 +6,7 @@ const hasChanged = require('./hasChanged');
 async function run() {
   try {
     const context = github.context;
+      core.info(JSON.stringify(context));
     const lastCommit = context.event.before;
 
     const paths = core.getInput('paths', { required: true });
