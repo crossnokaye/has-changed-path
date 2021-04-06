@@ -3140,8 +3140,7 @@ const hasChanged = __webpack_require__(632);
 async function run() {
   try {
     const context = github.context;
-    const lastCommit = 'HEAD~1';//context.event.before;
-      core.info(JSON.stringify(github.context));
+    const lastCommit = context.eventName == "push" ? context.payload.before : 'HEAD~1';
 
     const paths = core.getInput('paths', { required: true });
     const changed = await hasChanged(paths, lastCommit);
