@@ -6,7 +6,8 @@ const hasChanged = require('./hasChanged');
 async function run() {
   try {
     const context = github.context;
-    const lastCommit = context.event.before;
+    const lastCommit = 'HEAD~1';//context.event.before;
+      core.info(JSON.stringify(github.context));
 
     const paths = core.getInput('paths', { required: true });
     const changed = await hasChanged(paths, lastCommit);
@@ -19,7 +20,7 @@ async function run() {
 
     core.setOutput('changed', changed);
   } catch (error) {
-    core.setFailed(error.message+JSON.stringify(github.context));
+    core.setFailed(error.message);
   }
 }
 
