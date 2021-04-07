@@ -7,6 +7,7 @@ async function run() {
   try {
     const context = github.context;
     const lastCommit = context.eventName == "push" ? context.payload.before : 'HEAD~1';
+    core.info('lastCommit:',lastCommit,'eventName:',context.eventName,'before:',context.payload.before,context.payload);
 
     const paths = core.getInput('paths', { required: true });
     const changed = await hasChanged(paths, lastCommit);
