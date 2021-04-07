@@ -3141,7 +3141,6 @@ async function run() {
   try {
     const context = github.context;
     const lastCommit = context.eventName == "push" ? context.payload.before : 'HEAD~1';
-    core.info(`lastCommit:${lastCommit}\neventName:${context.eventName}\nbefore:${context.payload.before}\npayload:${context.payload}`);
 
     const paths = core.getInput('paths', { required: true });
     const changed = await hasChanged(paths, lastCommit);
@@ -5870,10 +5869,10 @@ module.exports = require("net");
 
 const exec = __webpack_require__(514)
 
-async function main(pathsToSearch = '') {
+async function main(pathsToSearch = '', lastCommit) {
   throwsForInvalidPaths(pathsToSearch)
 
-  return hasChanged(pathsToSearch)
+  return hasChanged(pathsToSearch, lastCommit);
 }
 
 function throwsForInvalidPaths(pathsToSearch) {

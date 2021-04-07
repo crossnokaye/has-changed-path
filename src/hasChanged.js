@@ -1,9 +1,9 @@
 const exec = require('@actions/exec')
 
-async function main(pathsToSearch = '') {
+async function main(pathsToSearch = '', lastCommit) {
   throwsForInvalidPaths(pathsToSearch)
 
-  return hasChanged(pathsToSearch)
+  return hasChanged(pathsToSearch, lastCommit);
 }
 
 function throwsForInvalidPaths(pathsToSearch) {
