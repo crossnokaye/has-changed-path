@@ -3139,10 +3139,24 @@ const hasChanged = __webpack_require__(632);
 
 async function run() {
   try {
-    const context = github.context;
-    const lastCommit = context.eventName == "push" ? context.payload.before : 'HEAD~1';
-
     const paths = core.getInput('paths', { required: true });
+    
+    const context = github.context;
+    switch(context.eventName) {
+      case "push":
+        core.info(`Push detected.\n`);
+        var lastCommit = context.payload.before;
+        break;
+      case "pull_request":
+        core.info(`Pull request detected.\n`);
+        var lastCommit = context.payload.pullRequest.base.sha;
+        break;
+      default:
+        core.info(`Other event type detected.\n`);
+        var lastCommit = "HEAD~1";
+        break;
+    }
+    
     const changed = await hasChanged(paths, lastCommit);
 
     if (changed) {
