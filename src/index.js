@@ -14,8 +14,8 @@ async function run() {
         var lastCommit = context.payload.before;
         break;
       case "pull_request":
-        core.info(`Pull request detected: ${JSON.stringify(context.payload)}\n`);
-        var lastCommit = context.payload.pullRequest.base.sha;
+        core.info(`Pull request detected.\n`);
+        var lastCommit = context.payload.pull_request.base.sha;
         break;
       default:
         core.info(`Other event type detected.\n`);
