@@ -3148,7 +3148,7 @@ async function run() {
         var lastCommit = context.payload.before;
         break;
       case "pull_request":
-        core.info(`Pull request detected: ${context.payload}\n`);
+        core.info(`Pull request detected: ${JSON.stringify(context.payload)}\n`);
         var lastCommit = context.payload.pullRequest.base.sha;
         break;
       default:
