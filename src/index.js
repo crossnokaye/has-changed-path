@@ -8,18 +8,16 @@ async function run() {
     const paths = core.getInput('paths', { required: true });
     
     const context = github.context;
+    var lastCommit;
     switch(context.eventName) {
       case "push":
-        core.info(`Push detected.\n`);
-        var lastCommit = context.payload.before;
-        break;
       case "pull_request":
         core.info(`Pull request detected.\n`);
-        var lastCommit = context.payload.pull_request.base.sha;
+        lastCommit = context.payload.before;
         break;
       default:
         core.info(`Other event type detected.\n`);
-        var lastCommit = "HEAD~1";
+        lastCommit = "HEAD~1";
         break;
     }
     

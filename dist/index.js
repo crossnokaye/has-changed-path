@@ -1354,6 +1354,52 @@ exports.restEndpointMethods = restEndpointMethods;
 
 /***/ }),
 
+/***/ 62:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/*!
+ * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+function isObject(o) {
+  return Object.prototype.toString.call(o) === '[object Object]';
+}
+
+function isPlainObject(o) {
+  var ctor,prot;
+
+  if (isObject(o) === false) return false;
+
+  // If has modified constructor
+  ctor = o.constructor;
+  if (ctor === undefined) return true;
+
+  // If has modified prototype
+  prot = ctor.prototype;
+  if (isObject(prot) === false) return false;
+
+  // If constructor does not have an Object-specific method
+  if (prot.hasOwnProperty('isPrototypeOf') === false) {
+    return false;
+  }
+
+  // Most likely a plain Object
+  return true;
+}
+
+exports.isPlainObject = isPlainObject;
+
+
+/***/ }),
+
 /***/ 87:
 /***/ (function(__unusedmodule, exports, __webpack_require__) {
 
@@ -2762,7 +2808,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var endpoint = __webpack_require__(440);
 var universalUserAgent = __webpack_require__(429);
-var isPlainObject = __webpack_require__(287);
+var isPlainObject = __webpack_require__(62);
 var nodeFetch = _interopDefault(__webpack_require__(467));
 var requestError = __webpack_require__(537);
 
@@ -3018,52 +3064,6 @@ exports.toCommandValue = toCommandValue;
 
 /***/ }),
 
-/***/ 287:
-/***/ (function(__unusedmodule, exports) {
-
-"use strict";
-
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/*!
- * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
- *
- * Copyright (c) 2014-2017, Jon Schlinkert.
- * Released under the MIT License.
- */
-
-function isObject(o) {
-  return Object.prototype.toString.call(o) === '[object Object]';
-}
-
-function isPlainObject(o) {
-  var ctor,prot;
-
-  if (isObject(o) === false) return false;
-
-  // If has modified constructor
-  ctor = o.constructor;
-  if (ctor === undefined) return true;
-
-  // If has modified prototype
-  prot = ctor.prototype;
-  if (isObject(prot) === false) return false;
-
-  // If constructor does not have an Object-specific method
-  if (prot.hasOwnProperty('isPrototypeOf') === false) {
-    return false;
-  }
-
-  // Most likely a plain Object
-  return true;
-}
-
-exports.isPlainObject = isPlainObject;
-
-
-/***/ }),
-
 /***/ 294:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -3142,18 +3142,16 @@ async function run() {
     const paths = core.getInput('paths', { required: true });
     
     const context = github.context;
+    var lastCommit;
     switch(context.eventName) {
       case "push":
-        core.info(`Push detected.\n`);
-        var lastCommit = context.payload.before;
-        break;
       case "pull_request":
         core.info(`Pull request detected.\n`);
-        var lastCommit = context.payload.pull_request.base.sha;
+        lastCommit = context.payload.before;
         break;
       default:
         core.info(`Other event type detected.\n`);
-        var lastCommit = "HEAD~1";
+        lastCommit = "HEAD~1";
         break;
     }
     
@@ -3571,7 +3569,7 @@ exports.getOctokit = getOctokit;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var isPlainObject = __webpack_require__(287);
+var isPlainObject = __webpack_require__(558);
 var universalUserAgent = __webpack_require__(429);
 
 function lowercaseKeys(object) {
@@ -5846,6 +5844,52 @@ function addHook(state, kind, name, hook) {
     orig: orig,
   });
 }
+
+
+/***/ }),
+
+/***/ 558:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+/*!
+ * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+ *
+ * Copyright (c) 2014-2017, Jon Schlinkert.
+ * Released under the MIT License.
+ */
+
+function isObject(o) {
+  return Object.prototype.toString.call(o) === '[object Object]';
+}
+
+function isPlainObject(o) {
+  var ctor,prot;
+
+  if (isObject(o) === false) return false;
+
+  // If has modified constructor
+  ctor = o.constructor;
+  if (ctor === undefined) return true;
+
+  // If has modified prototype
+  prot = ctor.prototype;
+  if (isObject(prot) === false) return false;
+
+  // If constructor does not have an Object-specific method
+  if (prot.hasOwnProperty('isPrototypeOf') === false) {
+    return false;
+  }
+
+  // Most likely a plain Object
+  return true;
+}
+
+exports.isPlainObject = isPlainObject;
 
 
 /***/ }),
